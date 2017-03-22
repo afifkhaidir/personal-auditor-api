@@ -31,7 +31,7 @@ mongoose.connect(db, (err, db) => {
 })
 
 /* use body-parser in app */
-app.use(bodyParser.urlencode({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
@@ -50,9 +50,22 @@ router.use((req, res, next) => {
 
 /* routes for /api/expense */
 router.route('/expense')
-	  .get((req, res) => {
-	  	res.json({ data: 'Welcome to Expense Auditor '})
-	  })
+  .get((req, res) => {
+    // retrieve all expenses
+    Expense.find().exec()
+      .then(expenses => res.json(expenses))
+      .catch(err => res.json({ error: err }))
+  })
+  .post((req, res) => {
+    var newExpense = new Expense()
+    newExpense.name = req.body.name
+    newExpense.amount = req.body.amount
+
+    newExpense.save()
+      .then(expense => res.json({ message: 'Expense added', expense: expense }))
+      .catch(err => res.json({ error: err }))
+  })
+
 
 /*===============
   Register Router
