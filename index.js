@@ -45,6 +45,8 @@ const router = express.Router()
 /* middleware */
 router.use((req, res, next) => {
 	console.log('Request coming')
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With')
 	next()
 })
 
