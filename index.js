@@ -53,7 +53,7 @@ router.use((req, res, next) => {
 /* routes for /api/expense */
 router.route('/expense')
   .get((req, res) => {
-    Expense.find().exec()
+    Expense.find().sort({date: 'desc'}).exec()
       .then(expenses => res.json(expenses))
       .catch(err => res.json({ error: err }))
   })
